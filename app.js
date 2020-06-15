@@ -18,6 +18,9 @@ const app = express();
 // mongodb connection initialization
 const mongodb = require('./connector/mongoDb')();
 
+// Middleware initialization
+const isAuthenticated = require('./middleware/isAuthenticated');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -34,7 +37,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
   resave: false,
   saveUninitialized: true,
-  cookie: {secure: true, maxAge: 14 * 24 * 3600000}
+  cookie: {maxAge: 14 * 24 * 3600000}
 }));
 
 //pasport.js initialization
@@ -44,7 +47,7 @@ app.use(passport.session());
 // routes
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-app.use('/chat', chatRouter);
+app.use('/chat', isAuthenticated, chatRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
