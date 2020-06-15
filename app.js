@@ -3,16 +3,18 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const session = require('express-session');
 const passport = require('passport');
 const dotenv = require('dotenv');
 dotenv.config();
 
-
+// router paths
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 
 const app = express();
 
+// mongodb connection initialization
 const mongodb = require('./connector/mongoDb')();
 
 // view engine setup
@@ -26,8 +28,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
+//express-session initialization
+app.use(session({
+  secret: process.env.SESSION_SECRET_KEY,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {secure: true, maxAge: 14 * 24 * 3600000}
+}));
 
+//pasport.js initialization
 app.use(passport.initialize());
+app.use(passport.session());
+
+// routes
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 
