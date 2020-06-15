@@ -15,7 +15,8 @@ router.get('/google/callback', passpartGoogle.authenticate(
         failureRedirect: '/'
     }),
     (req, res) => {
-        res.redirect('chat');
-    });
+        res.redirect('/chat');
+    }
+);
 
 module.exports = router;
