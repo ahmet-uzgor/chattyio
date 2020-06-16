@@ -1,12 +1,21 @@
 app.controller('chatController', ['$scope',($scope)=>{
     $scope.activeTab = 2;
     $scope.onlineList = {};
+    $scope.roomList = {};
 
+    /**
+     * Client-side Socket event handling
+     */
     const socket = io.connect("http://me.mydomain.com:3000/");
     socket.on('onlineList', (users) => {
         $scope.onlineList = users;
         $scope.$apply();
     });
+
+    socket.on('roomList', (rooms) => {
+        $scope.roomList = rooms;
+        $scope.$apply();
+    })
 
     $scope.newRoom = () =>{
         let randomName = Math.random().toString(36).substring(7);
