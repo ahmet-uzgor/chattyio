@@ -27,15 +27,20 @@ io.on('connection', (socket) => {
 
     Users.upsert(socket.id, socketUser); // When a user logged in it upserts user data to redis in 'online' hash table
 
-    Users.list(users => {
-        console.log('Connected Users',users);
+    Users.list(users => { //it takes online user list and sent to client
+        io.emit('onlineList', users);
     })
 
     socket.on('disconnect', () =>{ // When a user disconnect , it removes user from redis 
         Users.remove(socketUser.googleId);
-        redisStore.destroy(socket.request.sessionID, (err) => {// Destroy session when a user disconnect
-            console.log(err);
-        }); 
+        
+        Users.list(users => { // it takes online user list and sent to client
+            io.emit('onlineList', users);
+        })
+        
+        // redisStore.destroy(socket.request.sessionID, (err) => {// Destroy session when a user disconnect
+        //     console.log(err);
+        // }); 
     })
 });
 
