@@ -6,6 +6,9 @@ const socketApi = {
     io
 };
 
+//Lİbs
+const Users = require('./lib/UsersStorage');
+
 io.use(socketAuthorization); //socket.io authorization
 
 /**
@@ -19,6 +22,8 @@ io.adapter(redisAdapter({
 
 io.on('connection', (socket) => {
     console.log('a user connected to server with username', socket.request.user.name);
+
+    Users.upsert(socket.id, socket.request.user)
 });
 
 module.exports = socketApi;
