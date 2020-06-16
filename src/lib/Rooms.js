@@ -1,5 +1,6 @@
 const redis = require('redis');
-const redisClient = require('../redisClient');  
+const redisClient = require('../redisClient');
+  
 
 function Rooms(){
     this.client = redisClient.getClient();
@@ -8,10 +9,12 @@ function Rooms(){
 module.exports = new Rooms();
 
 Rooms.prototype.upsert = function (roomName){
+    let randomName = Math.random().toString(36).substring(7);
     this.client.hset(
         'rooms',
-        roomName,
+        randomName,
         JSON.stringify({
+            id: randomName,
             name: roomName,
             when: Date.now()
         }),
