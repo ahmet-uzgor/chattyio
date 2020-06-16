@@ -9,6 +9,7 @@ const socketApi = {
 //Lİbs
 const Users = require('./lib/UsersStorage');
 const Rooms = require('./lib/Rooms');
+const Messages = require('./lib/Message');
 
 io.use(socketAuthorization); //socket.io authorization
 
@@ -34,6 +35,14 @@ io.on('connection', (socket) => {
 
     Users.list(users => { //it takes online user list and sent to client
         io.emit('onlineList', users);
+    })
+
+    socket.on('newMessage', (data) => {
+        Messages.upsert({
+            ...data,
+            username: socketUser.name,
+            surname: socketUser.surname 
+        })
     })
 
     socket.on('newRoom', (roomName) => {
