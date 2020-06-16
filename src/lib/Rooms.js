@@ -23,3 +23,21 @@ Rooms.prototype.upsert = function (roomName){
     )
 };
 
+Rooms.prototype.list = function(callback){
+    //let active = []; array version
+    let roomList2 = {}; // hash table version
+    this.client.hgetall('rooms', (err, rooms) => {
+        if(err){
+            console.log(err);
+            return callback([]);
+        }
+
+        for (let room in rooms){
+            //active.push(JSON.parse(users[user])); array version
+            roomList2[room] = JSON.parse(rooms[room]);
+        }
+
+        return callback(roomList2);
+    })
+}
+

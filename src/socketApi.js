@@ -26,6 +26,10 @@ io.on('connection', (socket) => {
     const socketUser = socket.request.user ;
     console.log('a user connected to server with username', socketUser.name);
 
+    Rooms.list((rooms) => {
+        console.log(rooms);
+    })
+
     Users.upsert(socket.id, socketUser); // When a user logged in it upserts user data to redis in 'online' hash table
 
     Users.list(users => { //it takes online user list and sent to client
