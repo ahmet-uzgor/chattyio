@@ -27,4 +27,24 @@ Messages.prototype.upsert = function ({roomId, message, username, surname}){
     )
 };
 
+Messages.prototype.list = function(roomId, callback){
+    //let active = []; array version
+    let messageList = {}; // hash table version
+    this.client.hgetall(roomId, (err, messages) => {
+        if(err){
+            console.log(err);
+            return callback([]);
+        }
+
+        for (message in messages){
+            //console.log('message log',message);
+            //active.push(JSON.parse(users[user])); array version
+            messageList[message] = JSON.parse(messages[message]);
+        }
+
+        return callback(messageList);
+    })
+}
+
+
 
