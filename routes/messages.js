@@ -6,7 +6,7 @@ const Messages = require('../src/lib/Message');
 
 /* GET chat messages list for specified chat Room page with authentication. */
 router.get('/list', function(req, res, next) {
-  Messages.list('messages:a942i', (messages) => {
+  Messages.list(req.query.roomId, (messages) => {
     //console.log(messages)
     res.json(messages);
   })

@@ -1,4 +1,4 @@
-app.controller('chatController', ['$scope',($scope)=>{
+app.controller('chatController', ['$scope', 'chatFactory', ($scope, chatFactory) => {
     $scope.activeTab = 2;
     $scope.onlineList = {};
     $scope.roomList = {};
@@ -33,6 +33,10 @@ app.controller('chatController', ['$scope',($scope)=>{
         $scope.chatClicked = true;
         $scope.roomId = room.id;
         $scope.chatName = room.name;
+
+        chatFactory.getMessages(room.id).then((data) => {
+            console.log(data);
+        })
     }
 
     $scope.newRoom = () =>{
