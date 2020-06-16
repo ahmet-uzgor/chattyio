@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
 
     Rooms.list((rooms) => {
         io.emit('roomList', rooms);
-    })
+    });
 
     Users.upsert(socket.id, socketUser); // When a user logged in it upserts user data to redis in 'online' hash table
 
@@ -38,6 +38,9 @@ io.on('connection', (socket) => {
 
     socket.on('newRoom', (roomName) => {
         Rooms.upsert(roomName);
+        Rooms.list((rooms) => {
+            io.emit('roomList', rooms);
+        });
     })
 
     socket.on('disconnect', () =>{ // When a user disconnect , it removes user from redis 
