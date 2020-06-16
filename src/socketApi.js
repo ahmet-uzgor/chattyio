@@ -22,12 +22,17 @@ io.adapter(redisAdapter({
 }));
 
 io.on('connection', (socket) => {
-    console.log('a user connected to server with username', socket.request.user.name);
+    const socketUser = socket.request.user ;
+    console.log('a user connected to server with username', socketUser.name);
 
-    Users.upsert(socket.id, socket.request.user); // When a user logged in it upserts user data to redis in 'online' hash table
+    Users.upsert(socket.id, socketUser); // When a user logged in it upserts user data to redis in 'online' hash table
+
+    Users.list(users => {
+        console.log('Connected Users',users);
+    })
 
     socket.on('disconnect', () =>{ // When a user disconnect , it removes user from redis 
-        Users.remove(socket.request.user.googleId);
+        Users.remove(socketUser.googleId);
         redisStore.destroy(socket.request.sessionID, (err) => {// Destroy session when a user disconnect
             console.log(err);
         }); 
