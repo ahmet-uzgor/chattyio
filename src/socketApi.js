@@ -8,6 +8,7 @@ const socketApi = {
 
 //Lİbs
 const Users = require('./lib/UsersStorage');
+const Rooms = require('./lib/Rooms');
 
 io.use(socketAuthorization); //socket.io authorization
 
@@ -29,6 +30,10 @@ io.on('connection', (socket) => {
 
     Users.list(users => { //it takes online user list and sent to client
         io.emit('onlineList', users);
+    })
+
+    socket.on('newRoom', (roomName) => {
+        Rooms.upsert(roomName);
     })
 
     socket.on('disconnect', () =>{ // When a user disconnect , it removes user from redis 
