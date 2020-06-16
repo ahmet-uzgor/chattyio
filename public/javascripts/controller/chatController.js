@@ -2,6 +2,7 @@ app.controller('chatController', ['$scope',($scope)=>{
     $scope.activeTab = 2;
     $scope.onlineList = {};
     $scope.roomList = {};
+    $scope.chatClicked = false;
 
     /**
      * Client-side Socket event handling
@@ -17,9 +18,20 @@ app.controller('chatController', ['$scope',($scope)=>{
         $scope.$apply();
     })
 
+    $scope.switchRoom = (room) => {
+        $scope.chatClicked = true;
+    }
+
     $scope.newRoom = () =>{
-        let randomName = Math.random().toString(36).substring(7);
-        socket.emit('newRoom', randomName);
+        //let randomName = Math.random().toString(36).substring(7);
+        
+        let roomName = window.prompt("Please enter room name");
+        if (roomName !== null && roomName.length >= 3){
+            socket.emit('newRoom', roomName);
+        }else{
+            window.alert('You entered any things or less than 3 characters');
+        }
+        
     };
 
     $scope.changeTab = tab =>{
