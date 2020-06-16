@@ -3,6 +3,7 @@ app.controller('chatController', ['$scope',($scope)=>{
     $scope.onlineList = {};
     $scope.roomList = {};
     $scope.chatClicked = false;
+    $scope.chatName = "";
 
     /**
      * Client-side Socket event handling
@@ -20,6 +21,7 @@ app.controller('chatController', ['$scope',($scope)=>{
 
     $scope.switchRoom = (room) => {
         $scope.chatClicked = true;
+        $scope.chatName = room.name;
     }
 
     $scope.newRoom = () =>{
