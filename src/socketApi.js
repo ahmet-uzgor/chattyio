@@ -40,6 +40,7 @@ io.on('connection', (socket) => {
     socket.on('newMessage', (data) => {
         Messages.upsert({
             ...data,
+            userId: socketUser._id,
             username: socketUser.name,
             surname: socketUser.surname 
         })

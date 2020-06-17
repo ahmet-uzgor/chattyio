@@ -9,12 +9,13 @@ function Messages(){
 
 module.exports = new Messages();
 
-Messages.prototype.upsert = function ({roomId, message, username, surname}){
+Messages.prototype.upsert = function ({roomId, message, userId,username, surname}){
     let randomId = Math.random().toString(36).substring(7);
     this.client.hset(
         'messages:' +roomId,
         randomId,
         JSON.stringify({
+            userId,
             username,
             surname,
             message,
