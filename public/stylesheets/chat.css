@@ -214,6 +214,7 @@ ul,li{
 .container .right .chat.active-chat {
     display: block;
     display: flex;
+    position: relative;
 }
 .container .right .chat.active-chat .bubble {
     transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1);

@@ -43,7 +43,7 @@ Messages.prototype.list = function(roomId, callback){
             messageList[message] = JSON.parse(messages[message]);
         }
 
-        return callback(messageList); // _.orderBy(messageList, 'when', 'asc')
+        return callback(_.orderBy(messageList, 'when', 'asc')); // Messages are ordered by lodash.
     })
 }
 
