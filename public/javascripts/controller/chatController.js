@@ -4,7 +4,7 @@ app.controller('chatController', ['$scope', 'chatFactory', 'userFactory', ($scop
      */   
     function init(){
         userFactory.getUser().then((user) => {
-            console.log(user);
+            $scope.user = user;
         })
     }
     
@@ -16,6 +16,7 @@ app.controller('chatController', ['$scope', 'chatFactory', 'userFactory', ($scop
     $scope.onlineList = {};
     $scope.roomList = {};
     $scope.chatClicked = false;
+    $scope.loadingMessages = false;
     $scope.chatName = "";
     $scope.roomId = "";
     $scope.message = "";
@@ -46,12 +47,13 @@ app.controller('chatController', ['$scope', 'chatFactory', 'userFactory', ($scop
     
     $scope.switchRoom = (room) => {
         $scope.chatClicked = true;
+        $scope.loadingMessages = true;
         $scope.roomId = room.id;
         $scope.chatName = room.name;
 
         chatFactory.getMessages(room.id).then((data) => {
             $scope.messages[room.id] = data;
-            console.log($scope.messages);
+            $scope.loadingMessages = false ;
         })
     }
 
