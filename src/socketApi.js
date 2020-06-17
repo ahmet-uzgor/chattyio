@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', () =>{ // When a user disconnect , it removes user from redis 
-        Users.remove(socketUser.googleId);
+        Users.remove(socketUser._id);
         
         Users.list(users => { // it takes online user list and sent to client
             io.emit('onlineList', users);
