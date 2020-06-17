@@ -20,7 +20,7 @@ app.controller('chatController', ['$scope', 'chatFactory', 'userFactory', ($scop
     $scope.chatName = "";
     $scope.roomId = "";
     $scope.message = "";
-    $scope.messages = {};
+    $scope.messages = [];
     $scope.user = {};
 
     /**
@@ -35,29 +35,43 @@ app.controller('chatController', ['$scope', 'chatFactory', 'userFactory', ($scop
     socket.on('roomList', (rooms) => {
         $scope.roomList = rooms;
         $scope.$apply();
-    })
+    });
 
-    $scope.newMessage = () => {
-        socket.emit('newMessage', {
-            message: $scope.message,
-            roomId: $scope.roomId
-        });
-        $scope.message = "";
-    }
-    
+    /**
+     * 
+     * Client-side functions 
+     */
     $scope.switchRoom = (room) => {
         $scope.chatClicked = true;
         $scope.roomId = room.id;
         $scope.chatName = room.name;
         if ($scope.messages.hasOwnProperty('room.id')) { // Client memory optimization
             $scope.loadingMessages = true;
-
-            chatFactory.getMessages(room.id).then((data) => {
-                $scope.messages[room.id] = data;
-                $scope.loadingMessages = false ;
-            });
         };
-    }
+        chatFactory.getMessages(room.id).then((data) => {
+            $scope.messages[room.id] = data;
+            $scope.loadingMessages = false ;
+        });
+    };
+    
+    $scope.newMessage = () => {
+        if ($scope.message.trim() !== '') {
+            socket.emit('newMessage', {
+                message: $scope.message,
+                roomId: $scope.roomId
+            });
+
+            $scope.messages[$scope.roomId].push({
+                userId: $scope.user._id,
+                username: $scope.user.name,
+                surname: $scope.user.surname,
+                message: $scope.message,
+            });
+
+            $scope.message = "";
+        }
+    };
+    
 
     $scope.newRoom = () =>{
         //let randomName = Math.random().toString(36).substring(7);
