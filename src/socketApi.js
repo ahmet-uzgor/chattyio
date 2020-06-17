@@ -38,12 +38,16 @@ io.on('connection', (socket) => {
     })
 
     socket.on('newMessage', (data) => {
-        Messages.upsert({
+        const messageData = {
             ...data,
             userId: socketUser._id,
             username: socketUser.name,
             surname: socketUser.surname 
-        })
+        };
+
+        Messages.upsert(messageData);
+
+        socket.broadcast.emit('receiveMessage', messageData);
     })
 
     socket.on('newRoom', (roomName) => {
