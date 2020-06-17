@@ -1,4 +1,17 @@
-app.controller('chatController', ['$scope', 'chatFactory', ($scope, chatFactory) => {
+app.controller('chatController', ['$scope', 'chatFactory', 'userFactory', ($scope, chatFactory, userFactory) => {
+    /**
+     * Initialization
+     */   
+    function init(){
+        userFactory.getUser().then((user) => {
+            console.log(user);
+        })
+    }
+    
+    init();
+    /**
+     * Angular variables
+     */
     $scope.activeTab = 2;
     $scope.onlineList = {};
     $scope.roomList = {};
@@ -7,6 +20,7 @@ app.controller('chatController', ['$scope', 'chatFactory', ($scope, chatFactory)
     $scope.roomId = "";
     $scope.message = "";
     $scope.messages = {};
+    $scope.user = {};
 
     /**
      * Client-side Socket event handling
