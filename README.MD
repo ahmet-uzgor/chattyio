@@ -23,10 +23,11 @@ $ git clone https://github.com/ahmet-uzgor/chattyio.git
 $ cd chattyio
 $ npm install // To install necessary packages
 $ npm start 
+--> open http://127.0.0.1:3000 or localhost:3000 and login via google authentication
 ```
 
-* Chatty.io api uses, my test mongodb database and my local redis database so to be able to use effectively please set your redis database and open a file which is ".env"
-and set parameters in the below with your data.Also for google authentication you need Google oauth key .To take google oauth key [click](https://developers.google.com/identity/protocols/oauth2)
+* Chatty.io api uses, my test mongodb database and my local redis database so to be able to use effectively please install and your redis database to your computer and open a file in the main folder of project which is ".env"
+and set parameters in the below with your data.Also for google authentication you need Google oauth key and configuration.For more information and google oauth key [click](https://developers.google.com/identity/protocols/oauth2)
 
 | Environment KEY | VALUE |
 | ----------------| ----- |
