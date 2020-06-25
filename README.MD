@@ -1,4 +1,4 @@
-# CREATED BY AHMET UZGOR
+# CREATED BY [AHMET UZGOR](https://www.linkedin.com/in/ahmet-%C3%BCzg%C3%B6r-a1397a134/)
 
 Chatty.io is an advanced chat program which is written on top of Node.js.
 
